@@ -544,8 +544,8 @@ if(window.WebSocket){
 
 ```json
 {
-	"c":"s",//命令(command):"subscribe"
-	"p":[   //参数(parameters):[]
+	"c":"s", //命令(command):"subscribe"
+	"p":[    //参数(parameters):[]
 		{
 			"t":"ticker",            //主题(topic)：报价信息
 			"l":"BTCETH_24h"         //限定(limit)：交易标记符_时间粒度			  
@@ -591,8 +591,8 @@ bitcoin、ethereum、bitcoin-cash、litecoin、ethereum-classic
 
 ```json
 {
-	c:"r",//command:"response"
-	r:"h" //request:"heartbeat"
+	c:"r", //command:"response"
+	r:"h"  //request:"heartbeat"
 }
 ```
 
@@ -651,14 +651,14 @@ bitcoin、ethereum、bitcoin-cash、litecoin、ethereum-classic
 
 ```json
 {
-	"e":"AllBid",//AllBid：买单，AllAsk：卖单
+	"e":"AllBid", //AllBid：买单，AllAsk：卖单
 	"d":[{
-    	"s":"类型",//1: 买单，2: 卖单
+    	"s":"类型", //1: 买单，2: 卖单
     	"p":"价格",
     	"v":"数量"
 	},
 	{
-    	"s":"类型",//1: 买单，2: 卖单
+    	"s":"类型", //1: 买单，2: 卖单
     	"p":"价格",
     	"v":"数量"
 	}]

@@ -498,13 +498,13 @@ ETHBTC、BCHBTC、LTCBTC、ETCBTC、BLOBTC、BLTBTC、BLJBTC、EOSBTC、NULSBTC
 ```json
 {
     "symbol":"BTCUSDT_C",
-	"type":1
-	"total_amount": 20,
-	"available_amount":18,
-	"avg_price":886.65,
-	"create_date":1520315468222,
-	"lever_rate":10,
-	"force_burst_price":986.45
+    "type":1,
+    "total_amount":20,
+    "available_amount":18,
+    "avg_price":886.65,
+    "create_date":1520315468222,
+    "lever_rate":10,
+    "force_burst_price":986.45
 }
 ```
 

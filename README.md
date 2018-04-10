@@ -302,10 +302,10 @@ ETHBTC、BCHBTC、LTCBTC、ETCBTC、BLOBTC、BLTBTC、BLJBTC、EOSBTC、NULSBTC
       "available": 490.12,
       "frozen": 560.89
     },
-	"ETH": {
-	  "available": 690.12,
+    "ETH": {
+      "available": 690.12,
       "frozen": 760.89
-	}
+    }
 }
 ```
 
@@ -336,8 +336,8 @@ ETHBTC、BCHBTC、LTCBTC、ETCBTC、BLOBTC、BLTBTC、BLJBTC、EOSBTC、NULSBTC
       "available": 790.12,
       "frozen": 860.89
     },
-	"ETH": {
-	  "available": 990.12,
+    "ETH": {
+      "available": 990.12,
       "frozen": 660.89
 	}
 }
@@ -380,13 +380,13 @@ ETHBTC、BCHBTC、LTCBTC、ETCBTC、BLOBTC、BLTBTC、BLJBTC、EOSBTC、NULSBTC
         {
             "id":111,
             "create_date":1408076414000,
-			"symbol":"BTCUSDT_C",
-			"total_amount":10,
+            "symbol":"BTCUSDT_C",
+            "total_amount":10,
             "deal_amount":1,
-			"price":1111,
+            "price":1111,
             "avg_price":0,
             "fee":0,
-			"blj_fee":0
+            "blj_fee":0,
             "type":1,
             "status":"0",
             "lever_rate":10
@@ -394,13 +394,13 @@ ETHBTC、BCHBTC、LTCBTC、ETCBTC、BLOBTC、BLTBTC、BLJBTC、EOSBTC、NULSBTC
 		{
             "id":112,
             "create_date":1408076414000,
-			"symbol":"BTCUSDT_C",
-			"total_amount":10,
+            "symbol":"BTCUSDT_C",
+            "total_amount":10,
             "deal_amount":1,
-			"price":1111,
+            "price":1111,
             "avg_price":0,
             "fee":0,
-			"blj_fee":0
+            "blj_fee":0,
             "type":1,
             "status":"0",
             "lever_rate":10
@@ -544,8 +544,8 @@ if(window.WebSocket){
 
 ```json
 {
-	"c":"s", //命令(command):"subscribe"
-	"p":[    //参数(parameters):[]
+	"c":"s", //命令(command)
+	"p":[    //参数(parameters)
 		{
 			"t":"ticker",            //主题(topic)：报价信息
 			"l":"BTCETH_24h"         //限定(limit)：交易标记符_时间粒度			  
@@ -584,15 +584,15 @@ bitcoin、ethereum、bitcoin-cash、litecoin、ethereum-classic
 
 ```json
 {	
-	c:"h"//command:"heartbeat"
+	c:"h"
 }
 ```
 - 心跳回复
 
 ```json
 {
-	c:"r", //command:"response"
-	r:"h"  //request:"heartbeat"
+	c:"r",
+	r:"h"
 }
 ```
 
@@ -605,9 +605,9 @@ bitcoin、ethereum、bitcoin-cash、litecoin、ethereum-classic
     "l":"最低价",
     "h":"最高价",
     "o":"开盘价",
-	"c":"关盘价",
-	"v":"数量",
-	"t":"时间"
+    "c":"关盘价",
+    "v":"数量",
+    "t":"时间"
     }
 }
 ```
@@ -622,15 +622,15 @@ bitcoin、ethereum、bitcoin-cash、litecoin、ethereum-classic
 {
 	"e":"AllTrade",
 	"d": [{
-		"t":"时间",
-    	"p":"价格",
-    	"v":"数量"
-    },
+            "t":"时间",
+    	    "p":"价格",
+    	    "v":"数量"
+        },
 	{
-    "t":"时间",
-    "p":"价格",
-    "v":"数量"
-    }]
+            "t":"时间",
+            "p":"价格",
+            "v":"数量"
+        }]
 }
 ```
 
@@ -651,14 +651,14 @@ bitcoin、ethereum、bitcoin-cash、litecoin、ethereum-classic
 
 ```json
 {
-	"e":"AllBid", //AllBid：买单，AllAsk：卖单
+	"e":"AllBid", //AllBid=买单，AllAsk=卖单
 	"d":[{
-    	"s":"类型", //1: 买单，2: 卖单
+    	"s":"类型", //1=买单，2=卖单
     	"p":"价格",
     	"v":"数量"
 	},
 	{
-    	"s":"类型", //1: 买单，2: 卖单
+    	"s":"类型",
     	"p":"价格",
     	"v":"数量"
 	}]
@@ -670,7 +670,7 @@ bitcoin、ethereum、bitcoin-cash、litecoin、ethereum-classic
 {
 	"e":"o",
 	"d":{
-    	"s":"类型",//1: 买单，2: 卖单
+    	"s":"类型",
     	"p":"价格",
     	"v":"数量"
 	}

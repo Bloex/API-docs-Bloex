@@ -499,7 +499,7 @@ ETHBTC、BCHBTC、LTCBTC、ETCBTC、BLOBTC、BLTBTC、BLJBTC、EOSBTC、NULSBTC
 {
     "symbol":"BTCUSDT_C",
 	"type":1
-	"total_amount":20,
+	"total_amount": 20,
 	"available_amount":18,
 	"avg_price":886.65,
 	"create_date":1520315468222,
@@ -584,15 +584,15 @@ bitcoin、ethereum、bitcoin-cash、litecoin、ethereum-classic
 
 ```json
 {	
-	c:"h"
+	"c":"h"
 }
 ```
 - 心跳回复
 
 ```json
 {
-	c:"r",
-	r:"h"
+	"c":"r",
+	"r":"h"
 }
 ```
 

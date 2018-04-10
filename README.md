@@ -598,16 +598,16 @@ bitcoin、ethereum、bitcoin-cash、litecoin、ethereum-classic
 
 ## 2、行情信息
 ``` 
-  {
-  "e":"ticker",
-  "s":"BTCUSDT",
-  "d":{
-    "l":"最低价",
-    "h":"最高价",
-    "o":"开盘价",
-    "c":"关盘价",
-    "v":"数量",
-    "t":"时间"
+{
+    "e":"ticker",
+    "s":"BTCUSDT",
+    "d":{
+        "l":"最低价",
+        "h":"最高价",
+        "o":"开盘价",
+        "c":"关盘价",
+        "v":"数量",
+        "t":"时间"
     }
 }
 ```

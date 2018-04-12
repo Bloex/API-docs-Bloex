@@ -353,6 +353,7 @@ ETHBTC、BCHBTC、LTCBTC、ETCBTC、BLOBTC、BLTBTC、BLJBTC、EOSBTC、NULSBTC
 |apiKey |是  |string |API 密钥|
 |signature |是  |string |API 签名|
 |symbol |是  |string |交易标记符|
+|pageNum|是|int|当前页，每页只返回10条数据|
 |time|是|long|请求时间，13位毫秒时间|
 |timeError|否|long|请求时间与服务器时间误差值，默认10秒|
 

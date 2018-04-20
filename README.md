@@ -59,12 +59,7 @@ amount=10&apiKey=8117490ede734a5eab6a3bf151cb83c6&price=0.056&symbol=ETHBTC&type
 |:-----  |:-----  |
 |200 |成功|
 |101 |失败：交易暂未开启  |
-|102 |失败：可用保证金或资产不足  |
-|103 |失败：没有持仓信息  |
-|104 |失败：平仓数大于持仓数  |
-|105 |失败：合约同时有多杠杆倍率  |
-|106 |失败：合约同时有多单和空单  |
-|107 |失败：平仓类型错误|
+|102 |失败：资产不足  |
 |201 |失败：没有对应数据|
 |401 |失败：API密钥或令牌无效 |
 |402 |失败：请求时间超过安全限制 |
@@ -133,10 +128,6 @@ function getTicker(type) {
 ```
 
 - 交易标记符
-
--- 合约交易标记符
-
-BTCUSDT_C、ETHUSDT_C、BCHUSDT_C、LTCUSDT_C、ETCUSDT_C
 
 -- 币币交易标记符
 
@@ -228,32 +219,7 @@ ETHBTC、BCHBTC、LTCBTC、ETCBTC、BLOBTC、BLTBTC、BLJBTC、EOSBTC、NULSBTC
 ]
 ```
 
-## 4、获取合约指数
-
-- 请求地址：` /contract/index/get `
-- 提交参数
-
-|参数|必选|类型|说明|
-|:----    |:---|:----- |-----   |
-|symbol |是  |string |合约交易标记符|
-|time|是|long|请求时间，13位毫秒时间|
-|timeError|否|long|请求时间与服务器时间误差值，默认10秒|
-
-- 返回数据对象
-
-|属性|说明|
-|:-----  |:-----   |
-|index |指数  |
-
-- 返回数据示例
-
-```json
-{
-	"index": 11825.12
-}
-```
-
-## 5、获取美元人民币汇率
+## 4、获取美元人民币汇率
 
 - 请求地址：` /currency/exchange/rate/get `
 - 提交参数：无
@@ -274,42 +240,8 @@ ETHBTC、BCHBTC、LTCBTC、ETCBTC、BLOBTC、BLTBTC、BLJBTC、EOSBTC、NULSBTC
 }
 ```
 
-## 6、获取合约账户
 
-- 请求地址：` /contract/account/get `
-- 提交参数
-
-|参数|必选|类型|说明|
-|:----    |:---|:----- |-----   |
-|apiKey |是  |string |API 密钥|
-|signature |是  |string |API 签名|
-|time|是|long|请求时间，13位毫秒时间|
-|timeError|否|long|请求时间与服务器时间误差值，默认10秒|
-
-- 返回数据对象
-
-
-|属性|说明|
-|:-----  |:-----   |
-|available |可用保证金  |
-|frozen |冻结保证金  |
-
-- 返回数据示例
-
-```json
-{
-    "BTC": {
-      "available": 490.12,
-      "frozen": 560.89
-    },
-    "ETH": {
-      "available": 690.12,
-      "frozen": 760.89
-    }
-}
-```
-
-## 7、获取币币兑换账户
+## 5、获取币币兑换账户
 
 - 请求地址：` exchange/account/get `
 - 提交参数
@@ -343,7 +275,7 @@ ETHBTC、BCHBTC、LTCBTC、ETCBTC、BLOBTC、BLTBTC、BLJBTC、EOSBTC、NULSBTC
 }
 ```
 
-## 8、获取订单
+## 6、获取订单
 
 - 请求地址：` /order/get `
 - 提交参数
@@ -370,9 +302,8 @@ ETHBTC、BCHBTC、LTCBTC、ETCBTC、BLOBTC、BLTBTC、BLJBTC、EOSBTC、NULSBTC
 |avg_price |平均成交价格  |
 |fee |手续费  |
 |blj_fee |BLJ手续费  |
-|type |订单类型 （合约：1：开多 2：开空 3：平多 4： 平空；币币：1：买入 2：卖出）  |
+|type |订单类型 （1：买入 2：卖出）  |
 |status |订单状态(1全部成交，2部分成交，3未成交，4撤单)  |
-|lever_rate |杠杆倍数（5，10，15，20），合约交易专属   |
 
 - 返回数据示例
 
@@ -389,8 +320,7 @@ ETHBTC、BCHBTC、LTCBTC、ETCBTC、BLOBTC、BLTBTC、BLJBTC、EOSBTC、NULSBTC
             "fee":0,
             "blj_fee":0,
             "type":1,
-            "status":"0",
-            "lever_rate":10
+            "status":"0"
         },
 		{
             "id":112,
@@ -403,13 +333,12 @@ ETHBTC、BCHBTC、LTCBTC、ETCBTC、BLOBTC、BLTBTC、BLJBTC、EOSBTC、NULSBTC
             "fee":0,
             "blj_fee":0,
             "type":1,
-            "status":"0",
-            "lever_rate":10
+            "status":"0"
         }
  ]
 ```
 
-## 9、提交订单
+## 7、提交订单
 
 - 请求地址：` /order/submit `
 - 提交参数
@@ -421,8 +350,7 @@ ETHBTC、BCHBTC、LTCBTC、ETCBTC、BLOBTC、BLTBTC、BLJBTC、EOSBTC、NULSBTC
 |symbol |是  |string |交易标记符|
 |price|否|double|委托价格，不传则为市价|
 |amount|是|double|委托数量|
-|type|是|int|订单类型（合约：1：开多 2：开空 3：平多 4： 平空；币币：1：买入 2：卖出）|
-|lever|否|string|杠杆倍数（5，10，15，20），合约交易必选|
+|type|是|int|订单类型（1：买入 2：卖出）|
 |time|是|long|请求时间，13位毫秒时间|
 |timeError|否|long|请求时间与服务器时间误差值，默认10秒|
 
@@ -440,7 +368,7 @@ ETHBTC、BCHBTC、LTCBTC、ETCBTC、BLOBTC、BLTBTC、BLJBTC、EOSBTC、NULSBTC
   }
 ```
 
-## 10、取消订单
+## 8、取消订单
 
 - 请求地址：` /order/cancel `
 - 提交参数
@@ -468,46 +396,6 @@ ETHBTC、BCHBTC、LTCBTC、ETCBTC、BLOBTC、BLTBTC、BLJBTC、EOSBTC、NULSBTC
 }
 ```
 
-## 11、获取合约仓位
-
-- 请求地址：` /contract/position/get `
-- 提交参数
-
-|参数|必选|类型|说明|
-|:----    |:---|:----- |-----   |
-|apiKey |是  |string |API 密钥|
-|signature |是  |string |API 签名|
-|symbol |是  |string |交易标记符|
-|time|是|long|请求时间，13位毫秒时间|
-|timeError|否|long|请求时间与服务器时间误差值，默认10秒|
-
-- 返回数据对象
-
-|属性|说明|
-|:-----  |:-----   |
-|symbol |交易类型  |
-|type |订单类型（1：做多，2：做空）  |
-|total_amount |总持仓数量  |
-|available_amount |可平仓数量  |
-|avg_price |平均开仓价  |
-|create_date |创建时间  |
-|lever_rate |杠杆倍数（5，10，20，25）  |
-|force_burst_price |预估爆仓价  |
-
-- 返回数据示例
-
-```json
-{
-    "symbol":"BTCUSDT_C",
-    "type":1,
-    "total_amount":20,
-    "available_amount":18,
-    "avg_price":886.65,
-    "create_date":1520315468222,
-    "lever_rate":10,
-    "force_burst_price":986.45
-}
-```
 
 # 三、消息接口
 
@@ -554,20 +442,12 @@ if(window.WebSocket){
 		{
 			"t":"trade",             //主题：交易信息
 			"l":"BTCETH"             //限定：交易标记符				
-		},				
-		{
-			"t":"index",             //主题：指数信息
-			"l":"bitcoin,ethereum"   //限定：资产类型			
 		}
 	]
 }
 ```
 
 - 交易标记符
-
--- 合约交易标记符
-
-BTCUSDT_C、ETHUSDT_C、BCHUSDT_C、LTCUSDT_C、ETCUSDT_C
 
 -- 币币交易标记符
 
@@ -678,12 +558,3 @@ bitcoin、ethereum、bitcoin-cash、litecoin、ethereum-classic
 }
 ```
 
-## 4、指数信息
-
-```json
-{
-	"e":"index",
-	"s":"bitcoin",
-	"d": 6666.88
-}
-```

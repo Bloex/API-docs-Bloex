@@ -1,32 +1,36 @@
 # API说明书
 
-# 一、申请授权
+# 一、开通接口
 
-## 开启API权限
-申请API密钥和API令牌获得授权，其中API密钥是提供给API用户的访问密钥，API令牌用于对请求参数签名的私钥。
-**注意： 请勿向任何人泄露这两个参数，这两个参数关乎您账号的安全。**
+## 申请授权
+
+请登录交易平台，进入个人中心，开通API接入功能，获得API-Key和Secret-Key。
+
+API-Key：用户身份标识。
+Secret-Key：用户签名密钥。
+
+**特别提示： 请勿泄露API-Key和Secret-Key。**
+
 ## 参数签名
-在调用敏感的交易接口时，请将API密钥和API签名作为参数传入。
-用户提交的参数除signature外，都要参与签名。
 
-首先，将待签名字符串要求按照参数名进行排序(首先比较所有参数名的第一个字母，按abcd顺序排列，若遇到相同首字母，则看第二个字母，以此类推)。
+在调用敏感接口时，必须传入API-Key，并使用Secret-Key对参数（signature除外）进行签名。
 
-例如：对于如下的参数进行签名
+待签名的参数：
 ```
-"apiKey=8117490ede734a5eab6a3bf151cb83c6","symbol=ETHBTC","price=0.056","amount=10","type=1"
+"apiKey=8117490ede734a5eab6a3bf151cb83c6"、"symbol=ETHBTC"、"price=0.056"、"amount=10"、"type=1"
 ```
-生成待签名的字符串
+首先，生成待签名字符串，把参数按英文字母顺序排列：
 ```
-amount=10&apiKey=8117490ede734a5eab6a3bf151cb83c6&price=0.056&symbol=ETHBTC&type=1
+"amount=10&apiKey=8117490ede734a5eab6a3bf151cb83c6&price=0.056&symbol=ETHBTC&type=1"
 ```
-然后，将待签名字符串,利用SHA256算法,API令牌作为签名参数，生成最终签名字符串（全小写）。例如：
+然后，将待签名字符串作为签名内容,Secret-Key作为签名密钥，利用SHA256算法获得签名摘要内容（全小写）：
 ```
-signature=3cafe40f92be6ac77d2792b4b267c2da11e3f3087b93bb19c6c5133786984b44
+"signature=3cafe40f92be6ac77d2792b4b267c2da11e3f3087b93bb19c6c5133786984b44"
 ```
 
-最后，将签名字符串加入提交参数中。例如：
+最后，将签名添加到原始参数的末尾处：
 ```
-amount=10&apiKey=8117490ede734a5eab6a3bf151cb83c6&price=0.056&symbol=ETHBTC&type=1&signature=3cafe40f92be6ac77d2792b4b267c2da11e3f3087b93bb19c6c5133786984b44
+"amount=10&apiKey=8117490ede734a5eab6a3bf151cb83c6&price=0.056&symbol=ETHBTC&type=1&signature=3cafe40f92be6ac77d2792b4b267c2da11e3f3087b93bb19c6c5133786984b44"
 ```
 
 # 二、交易接口

@@ -9,6 +9,9 @@ import java.util.*;
 
 public class ApiClient {
 
+    //API地址
+    private String apiUrl = "https://api.bloex.com";
+
     //替换成自己的API-KEY
     private String apiKey = "c7eedd959457407181c051bb3366e0c0";
     //替换成自己的SECRET-KEY
@@ -104,11 +107,10 @@ public class ApiClient {
         return builder.toString();
     }
 
-    private String post(String url, Map<String, String> params) throws HttpException, IOException {
-        String apiRootUrl = "https://api.bloex.com";
-        String apiUrl = apiRootUrl + url;
+    private String post(String requestUrl, Map<String, String> params) throws HttpException, IOException {
+        String url = apiUrl + requestUrl;
         //http post
-        String response = "";
-        return response;
+        String result = "";
+        return result;
     }
 }

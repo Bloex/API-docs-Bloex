@@ -49,7 +49,7 @@ public class ApiClient {
         //按顺序拼接内容
         String url = createSortedParameterUrl(parameters);
         //对内容进行签名
-        String result = getHashValue(url.getBytes(), secretKey.getBytes());
+        String result = sign(url.getBytes(), secretKey.getBytes());
         return result;
     }
 
@@ -77,12 +77,12 @@ public class ApiClient {
         return result;
     }
 
-    private String getHashValue(byte[] data, byte[] key) {
+    private String sign(byte[] content, byte[] secretKey) {
         try {
-            SecretKeySpec secretKeySpec = new SecretKeySpec(key, "HmacSHA256");
+            SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey, "HmacSHA256");
             Mac mac = Mac.getInstance("HmacSHA256");
             mac.init(secretKeySpec);
-            return toHex(mac.doFinal(data));
+            return toHex(mac.doFinal(content));
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         } catch (InvalidKeyException e) {

@@ -23,7 +23,7 @@ Secret-Key：用户签名密钥。
 ```
 "amount=10&apiKey=8117490ede734a5eab6a3bf151cb83c6&price=0.056&symbol=ETHBTC&type=1"
 ```
-然后，将待签名字符串作为签名内容,Secret-Key作为签名密钥，利用SHA256算法获得签名摘要内容（全小写）：
+然后，将待签名字符串作为签名内容,Secret-Key作为签名密钥，利用HmacSHA256算法获得签名摘要内容（全小写）：
 ```
 "signature=3cafe40f92be6ac77d2792b4b267c2da11e3f3087b93bb19c6c5133786984b44"
 ```

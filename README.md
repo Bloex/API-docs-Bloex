@@ -298,7 +298,54 @@ function getTicker(type) {
 }
 ```
 
-## 6、获取订单
+## 6、获取单个订单
+
+- 请求地址：` /order/getOne `
+- 提交参数
+
+|参数|必选|类型|说明|
+|:----    |:---|:----- |-----   |
+|apiKey |是  |string |API-Key|
+|signature |是  |string |API 签名|
+|orderId |是  |long |订单ID|
+|time|是|long|请求时间，13位毫秒时间|
+|timeError|否|long|请求时间与服务器时间误差值，默认10秒|
+
+- 返回数据对象
+
+|属性|说明|
+|:-----  |:-----   |
+|id |订单ID  |
+|create_date |委托时间  |
+|symbol |交易标记符  |
+|total_amount |委托数量  |
+|deal_amount |成交数量  |
+|price |委托价格  |
+|avg_price |平均成交价格  |
+|fee |手续费  |
+|blj_fee |BLJ手续费  |
+|type |订单类型 （合约：1：开多 2：开空 3：平多 4： 平空；币币：1：买入 2：卖出）  |
+|status |订单状态(1全部成交，2部分成交，3未成交，4撤单)  |
+
+- 返回数据示例
+
+```json
+        {
+            "id":111,
+            "create_date":1408076414000,
+	    "symbol":"BTCUSDT_C",
+	    "total_amount":10,
+            "deal_amount":1,
+	    "price":1111,
+            "avg_price":0,
+            "fee":0,
+	    "blj_fee":0
+            "type":1,
+            "status":"0"
+        }
+```
+
+## 7、获取订单列表
 
 - 请求地址：` /order/get `
 - 提交参数
@@ -361,7 +408,7 @@ function getTicker(type) {
  ]
 ```
 
-## 7、提交订单
+## 8、提交订单
 
 - 请求地址：` /order/submit `
 - 提交参数
@@ -391,7 +438,7 @@ function getTicker(type) {
   }
 ```
 
-## 8、取消订单
+## 9、取消订单
 
 - 请求地址：` /order/cancel `
 - 提交参数
@@ -417,6 +464,33 @@ function getTicker(type) {
 {
     "successId":46485184845646
 }
+```
+
+## 10、批量取消订单
+
+- 请求地址：`/order/cancelBySymbol `
+- 提交参数
+
+|参数名|必选|类型|说明|
+|:----    |:---|:----- |-----   |
+|apiKey |是  |string |API-Key|
+|signature |是  |string |API 签名|
+|symbol |是  |string |交易标记符|
+|time|是|long|请求时间，13位毫秒时间|
+|timeError|否|long|请求时间与服务器时间误差值，默认10秒|
+
+- 返回数据对象
+
+|属性|说明|
+|:-----  |:-----   |
+|code |执行结果，200为成功  |
+
+- 返回数据示例
+
+``` json
+  {
+    "code":200
+  }
 ```
 
 

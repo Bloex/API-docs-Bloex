@@ -352,7 +352,7 @@ function getTicker(type) {
         }
 ```
 
-## 7、获取订单列表
+## 7、获取订单列表（待成交订单）
 
 - 请求地址：` /order/get `
 - 提交参数
@@ -362,7 +362,8 @@ function getTicker(type) {
 |apiKey |是  |string |API-Key|
 |signature |是  |string |API 签名|
 |symbol |是  |string |交易标记符|
-|pageNum|是|int|当前页，每页只返回10条数据|
+|pageNum|否|int|当前页，默认为第1页|
+|pageSize|否|int|每页条数，默认10条，最大为200条|
 |time|是|long|请求时间，13位毫秒时间|
 |timeError|否|long|请求时间与服务器时间误差值，默认10秒|
 
@@ -499,6 +500,75 @@ function getTicker(type) {
     "code":200
   }
 ```
+
+## 11、获取成交记录列表
+
+**请求URL：** 
+- ` https://api.bloex.com/dealRecord/get `
+  
+**请求方式：**
+- POST 
+
+**参数：** 
+
+|参数名|必选|类型|说明|
+|:----    |:---|:----- |-----   |
+|apiKey |是  |string |API 密匙|
+|signature |是  |string |API 签名|
+|symbol |是  |string |交易标记符|
+|pageNum|否|int|当前页，默认为第1页|
+|pageSize|否|int|每页条数，默认10条，最大为200条|
+|time|是|long|请求时间，13位毫秒时间|
+|timeError|否|long|请求时间与服务器时间误差值，默认10秒|
+
+ **返回示例**
+
+``` json
+  [
+        {
+            "id":123,
+            "create_date":1408076414000,
+	    "symbol":"BTCUSDT_C",
+	    "total_amount":10,
+            "deal_amount":1,
+	    "price":1111,
+            "avg_price":0,
+            "fee":0,
+	    "blj_fee":0
+            "type":1,
+            "order_id":"321"
+        },
+		{
+            "id":124,
+            "create_date":1408076414000,
+	    "symbol":"BTCUSDT_C",
+	    "total_amount":10,
+            "deal_amount":1,
+	    "price":1111,
+            "avg_price":0,
+            "fee":0,
+	    "blj_fee":0
+            "type":1,
+            "order_id":"322"
+        }
+  ]
+```
+
+ **返回参数说明** 
+
+|参数名|说明|
+|:-----  |:-----                           |
+|id |订单ID  |
+|create_date |委托时间  |
+|symbol |交易类型名称  |
+|deal_amount |成交数量  |
+|price |成交价格  |
+|fee |手续费  |
+|blj_fee |BLJ手续费  |
+|type |订单类型 （1：买入 2：卖出）  |
+|order_id |对应订单ID  |
+
+
 
 
 # 三、消息接口

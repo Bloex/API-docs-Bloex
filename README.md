@@ -274,7 +274,7 @@ function getTicker(type) {
 
 ## 5、获取币币兑换账户
 
-- 请求地址：` exchange/account/get `
+- 请求地址：` /token/account/get `
 - 提交参数
 
 |参数|必选|类型|说明|
@@ -308,7 +308,7 @@ function getTicker(type) {
 
 ## 6、获取单个订单
 
-- 请求地址：` /order/getOne `
+- 请求地址：` /order/get/by-id `
 - 提交参数
 
 |参数|必选|类型|说明|
@@ -483,7 +483,7 @@ function getTicker(type) {
 
 ## 10、批量取消订单
 
-- 请求地址：`/order/cancelBySymbol `
+- 请求地址：`/order/cancel/by-symbol `
 - 提交参数
 
 |参数名|必选|类型|说明|
@@ -510,7 +510,7 @@ function getTicker(type) {
 
 ## 11、获取成交记录列表
 
-- 请求地址：` https://api.bloex.com/dealRecord/get `
+- 请求地址：` /deal/record/get `
 - 提交参数 
 
 |参数名|必选|类型|说明|
@@ -573,7 +573,7 @@ function getTicker(type) {
 
 ## 12、获取合约账户
 
-- 请求地址：` contract/account/get `
+- 请求地址：` /contract/account/get `
 - 提交参数
 
 |参数|必选|类型|说明|
@@ -631,7 +631,7 @@ function getTicker(type) {
 
 ## 13、获取合约仓位信息
 
-- 请求地址：` contract/position/get `
+- 请求地址：` /contract/position/get `
 - 提交参数
 
 |参数|必选|类型|说明|
@@ -672,7 +672,7 @@ function getTicker(type) {
 
 ## 14、提交合约平仓单
 
-- 请求地址：` contract/position/close `
+- 请求地址：` /contract/position/close `
 - 提交参数
 
 |参数|必选|类型|说明|

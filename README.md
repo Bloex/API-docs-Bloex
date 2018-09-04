@@ -348,7 +348,7 @@ function getTicker(type) {
 	    "price":1111,
             "avg_price":0,
             "fee":0,
-	    "blj_fee":0
+	    "blj_fee":0,
             "type":1,
             "status":"0",
             "lever_rate":"10"
@@ -550,7 +550,7 @@ function getTicker(type) {
 	    "price":1111,
             "avg_price":0,
             "fee":0,
-	    "blj_fee":0
+	    "blj_fee":0,
             "type":1,
             "order_id":"321"
         },
@@ -563,7 +563,7 @@ function getTicker(type) {
 	    "price":1111,
             "avg_price":0,
             "fee":0,
-	    "blj_fee":0
+	    "blj_fee":0,
             "type":1,
             "order_id":"322"
         }

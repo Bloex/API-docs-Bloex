@@ -63,12 +63,15 @@ Secret-Key：用户签名密钥。
 |:-----  |:-----  |
 |200 |成功|
 |101 |失败：交易暂未开启  |
-|102 |失败：资产不足  |
+|102 |失败：可用保证金不足或可用资产不足  |
+|103 |失败：杠杆类型与已有委托单和持仓不一致  |
+|104 |失败：买入持仓时，委托价比爆仓价低  |
+|105 |失败：卖出持仓时，委托价比爆仓价高  |
+|106 |失败：持仓不存在  |
+|107 |失败：已经存在平仓单|
 |201 |失败：没有对应数据|
-|401 |失败：API-Key或签名无效 |
-|402 |失败：请求时间超过安全限制 |
-|429 |失败：请求过于频繁 |
-|500 |失败：参数无效  |
+|401 |失败：API 密钥或API 令牌不存在 |
+|500 |失败：参数错误  |
 |501 |失败：缺少参数  |
 
 - 示例代码： ` JavaScript `
@@ -142,10 +145,7 @@ function getTicker(type) {
 |BCHBTC|0.000001|6位小数|0.001|3位小数|
 |LTCBTC|0.000001|6位小数|0.01|2位小数|
 |ETCBTC|0.000001|6位小数|0.1|2位小数|
-|BLOBTC|0.00000001|8位小数|1|3位小数|
 |NULSBTC|0.0000001|7位小数|1|2位小数|
-|SOCBTC|0.00000001|8位小数|1|2位小数|
-|NEXOBTC|0.00000001|8位小数|1|2位小数|
 
 |USDT交易区|最小委托价格|价格小数位限制|单次最小委托数量|委托数量小数位限制|
 |:---|:---|:---|:---|:---|
@@ -154,14 +154,15 @@ function getTicker(type) {
 |BCHUSDT|0.01|2位小数|0.001|3位小数|
 |LTCUSDT|0.01|2位小数|0.01|2位小数|
 |ETCUSDT|0.01|2位小数|0.1|2位小数|
-|BLOUSDT|0.0001|4位小数|1|2位小数|
 |NULSUSDT|0.001|3位小数|1|2位小数|
-|SOCUSDT|0.0001|4位小数|1|2位小数|
-|NEXOUSDT|0.0001|4位小数|1|2位小数|
-|SSUSDT|0.00001|5位小数|10|0位小数|
-|CARUSDT|0.00001|5位小数|1|0位小数|
-|BLJUSDT|0.000001|6位小数|100|0位小数|
 
+
+-- 合约交易标记符
+
+|合约交易|最小委托价格|价格小数位限制|单次最小委托数量|委托数量小数位限制|
+|:----    |:---|:---|:---|:---|
+|BTCUSDT_C|0.01|2位小数|0.001|3位小数|
+|FTUSDT_C|0.000001|6位小数|100|0位小数|
 
 - **时间参数 time与timeError**
 
@@ -331,8 +332,9 @@ function getTicker(type) {
 |avg_price |平均成交价格  |
 |fee |手续费  |
 |blj_fee |BLJ手续费  |
-|type |订单类型 （合约：1：开多 2：开空 3：平多 4： 平空；币币：1：买入 2：卖出）  |
+|type |订单类型 （1：买入 2：卖出）  |
 |status |订单状态(1全部成交，2部分成交，3未成交，4撤单)  |
+|lever_rate |杠杆倍数（2, 5，10，15，20），合约交易专属   |
 
 - 返回数据示例
 
@@ -340,7 +342,7 @@ function getTicker(type) {
         {
             "id":111,
             "create_date":1408076414000,
-	    "symbol":"BTCUSDT_C",
+	    "symbol":"BTCUSDT",
 	    "total_amount":10,
             "deal_amount":1,
 	    "price":1111,
@@ -348,7 +350,8 @@ function getTicker(type) {
             "fee":0,
 	    "blj_fee":0
             "type":1,
-            "status":"0"
+            "status":"0",
+            "lever_rate":"10"
         }
 ```
 
@@ -382,6 +385,7 @@ function getTicker(type) {
 |blj_fee |BLJ手续费  |
 |type |订单类型 （1：买入 2：卖出）  |
 |status |订单状态(1全部成交，2部分成交，3未成交，4撤单)  |
+|lever_rate |杠杆倍数（2, 5，10，15，20），合约交易专属   |
 
 - 返回数据示例
 
@@ -390,7 +394,7 @@ function getTicker(type) {
         {
             "id":111,
             "create_date":1408076414000,
-            "symbol":"BTCUSDT_C",
+            "symbol":"BTCUSDT",
             "total_amount":10,
             "deal_amount":1,
             "price":1111,
@@ -398,12 +402,13 @@ function getTicker(type) {
             "fee":0,
             "blj_fee":0,
             "type":1,
-            "status":"0"
+            "status":"0",
+            "lever_rate":"10"
         },
 		{
             "id":112,
             "create_date":1408076414000,
-            "symbol":"BTCUSDT_C",
+            "symbol":"BTCUSDT",
             "total_amount":10,
             "deal_amount":1,
             "price":1111,
@@ -411,7 +416,8 @@ function getTicker(type) {
             "fee":0,
             "blj_fee":0,
             "type":1,
-            "status":"0"
+            "status":"0",
+            "lever_rate":"10"
         }
  ]
 ```
@@ -431,6 +437,7 @@ function getTicker(type) {
 |type|是|int|订单类型（1：买入 2：卖出）|
 |time|是|long|请求时间，13位毫秒时间|
 |timeError|否|long|请求时间与服务器时间误差值，默认10秒|
+|lever|否|string|杠杆倍数（2，5，10，20，25），合约交易必选|
 
 - 返回数据对象
 
@@ -503,13 +510,8 @@ function getTicker(type) {
 
 ## 11、获取成交记录列表
 
-**请求URL：** 
-- ` https://api.bloex.com/dealRecord/get `
-  
-**请求方式：**
-- POST 
-
-**参数：** 
+- 请求地址：` https://api.bloex.com/dealRecord/get `
+- 提交参数 
 
 |参数名|必选|类型|说明|
 |:----    |:---|:----- |-----   |
@@ -521,40 +523,7 @@ function getTicker(type) {
 |time|是|long|请求时间，13位毫秒时间|
 |timeError|否|long|请求时间与服务器时间误差值，默认10秒|
 
- **返回示例**
-
-``` json
-  [
-        {
-            "id":123,
-            "create_date":1408076414000,
-	    "symbol":"BTCUSDT_C",
-	    "total_amount":10,
-            "deal_amount":1,
-	    "price":1111,
-            "avg_price":0,
-            "fee":0,
-	    "blj_fee":0
-            "type":1,
-            "order_id":"321"
-        },
-		{
-            "id":124,
-            "create_date":1408076414000,
-	    "symbol":"BTCUSDT_C",
-	    "total_amount":10,
-            "deal_amount":1,
-	    "price":1111,
-            "avg_price":0,
-            "fee":0,
-	    "blj_fee":0
-            "type":1,
-            "order_id":"322"
-        }
-  ]
-```
-
- **返回参数说明** 
+- 返回参数说明
 
 |参数名|说明|
 |:-----  |:-----                           |
@@ -568,8 +537,166 @@ function getTicker(type) {
 |type |订单类型 （1：买入 2：卖出）  |
 |order_id |对应订单ID  |
 
+ **返回示例**
+
+``` json
+  [
+        {
+            "id":123,
+            "create_date":1408076414000,
+	    "symbol":"BTCUSDT",
+	    "total_amount":10,
+            "deal_amount":1,
+	    "price":1111,
+            "avg_price":0,
+            "fee":0,
+	    "blj_fee":0
+            "type":1,
+            "order_id":"321"
+        },
+		{
+            "id":124,
+            "create_date":1408076414000,
+	    "symbol":"BTCUSDT",
+	    "total_amount":10,
+            "deal_amount":1,
+	    "price":1111,
+            "avg_price":0,
+            "fee":0,
+	    "blj_fee":0
+            "type":1,
+            "order_id":"322"
+        }
+  ]
+```
 
 
+## 12、获取合约账户
+
+- 请求地址：` contract/account/get `
+- 提交参数
+
+|参数|必选|类型|说明|
+|:----    |:---|:----- |-----   |
+|apiKey |是  |string |API-Key|
+|signature |是  |string |API 签名|
+|time|是|long|请求时间，13位毫秒时间|
+|timeError|否|long|请求时间与服务器时间误差值，默认10秒|
+
+- 返回数据对象
+
+|属性|说明|
+|:-----  |:-----   |
+|rights |账户权益  |
+|balance |账户余额  |
+|unrealizedProfitLoss |未实现盈亏  |
+|available |可用保证金  |
+|orderMargin |委托保证金  |
+|positionMargin |持仓保证金  |
+|coins |合约各币种的资产数量  |
+
+- 返回数据示例
+
+```json
+{
+    "BTC": {
+      "rights": "6200",
+      "balance": "6000",
+      "unrealizedProfitLoss": "200",
+      "available": "5600",
+      "orderMargin": "0",
+      "positionMargin": "600",
+      "coins": {
+                "USDT":"100",
+                "BTC":"1",
+                "ETH":"0"
+               }
+    },
+    "FT": {
+      "rights": "6200",
+      "balance": "6000",
+      "unrealizedProfitLoss": "200",
+      "available": "5600",
+      "orderMargin": "0",
+      "positionMargin": "600",
+      "coins": {
+                "USDT":"100",
+		"FT":"1000",
+                "BTC":"0.9",
+                "ETH":"0"
+              }
+    }
+}
+```
+
+## 13、获取合约仓位信息
+
+- 请求地址：` contract/position/get `
+- 提交参数
+
+|参数|必选|类型|说明|
+|:----    |:---|:----- |-----   |
+|apiKey |是  |string |API-Key|
+|signature |是  |string |API 签名|
+|symbol |是  |string |交易标记符|
+|time|是|long|请求时间，13位毫秒时间|
+|timeError|否|long|请求时间与服务器时间误差值，默认10秒|
+
+- 返回数据对象
+
+|属性|说明|
+|:-----  |:-----   |
+|symbol |交易类型  |
+|type |方向(1：买入，2：卖出)  |
+|margin |保证金  |
+|amount |持仓数量  |
+|entry_price |开仓均价  |
+|create_date |创建日期  |
+|lever_rate |杠杆倍数（2，5，10，20，25） |
+|force_burst_price |预计爆仓价  |
+
+- 返回数据示例
+
+```json
+{
+    "symbol":"BTCUSDT_C",
+    "type":"1",
+    "margin":"600",
+    "amount":"1",
+    "entry_price":"6000",
+    "create_date":"1536033600000",
+    "lever_rate":"10",
+    "force_burst_price":"5000"
+}
+```
+
+## 14、提交合约平仓单
+
+- 请求地址：` contract/position/close `
+- 提交参数
+
+|参数|必选|类型|说明|
+|:----    |:---|:----- |-----   |
+|apiKey |是  |string |API-Key|
+|signature |是  |string |API 签名|
+|symbol |是  |string |交易标记符|
+|price|否|double|平仓价格，不传则为市价|
+|time|是|long|请求时间，13位毫秒时间|
+|timeError|否|long|请求时间与服务器时间误差值，默认10秒|
+
+- 返回数据对象
+
+|属性|说明|
+|:-----  |:-----   |
+|orderId |订单ID  |
+
+- 返回数据示例
+
+```json
+  {
+    "orderId":46485184845646
+  }
+```
 
 # 三、消息接口
 
@@ -625,7 +752,11 @@ if(window.WebSocket){
 
 -- 币币交易标记符
 
-ETHBTC、BCHBTC、LTCBTC、ETCBTC、BLOBTC、BLTBTC、BLJBTC、EOSBTC、NULSBTC
+ETHBTC、BCHBTC、LTCBTC、ETCBTC、NULSBTC、BTCUSDT、ETHUSDT、BCHUSDT、LTCUSDT、ETCUSDT、NULSUSDT
+
+-- 合约交易标记符
+
+BTCUSDT_C、FTUSDT_C
 
 - 时间粒度
 
@@ -633,7 +764,7 @@ ETHBTC、BCHBTC、LTCBTC、ETCBTC、BLOBTC、BLTBTC、BLJBTC、EOSBTC、NULSBTC
 
 - 资产类型
 
-bitcoin、ethereum、bitcoin-cash、litecoin、ethereum-classic
+BTC、ETH、BCH、LTC、ETC、NULS、FT
 
 - 心跳请求
 
